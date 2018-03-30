@@ -60,7 +60,7 @@ import java.util.Set;
 public class RarMojo
     extends AbstractMojo
 {
-    public static final String RA_XML_URI = "META-INF/ra.xml";
+    private static final String RA_XML_URI = "META-INF/ra.xml";
 
     /**
      * Single directory for extra files to include in the RAR.
@@ -199,8 +199,8 @@ public class RarMojo
      * </p>
      * <pre>
      * &lt;delimiters&gt;
-     *   &lt;delimiter&gt;${*}&lt/delimiter&gt;
-     *   &lt;delimiter&gt;@&lt/delimiter&gt;
+     *   &lt;delimiter&gt;${*}&lt;/delimiter&gt;
+     *   &lt;delimiter&gt;@&lt;/delimiter&gt;
      * &lt;/delimiters&gt;
      * </pre>
      * <p>
@@ -213,16 +213,19 @@ public class RarMojo
     protected LinkedHashSet<String> delimiters;
 
     /**
+     * <p>
      * The list of extra filter properties files to be used along with System properties,
      * project properties, and filter properties files specified in the POM build/filters section,
      * which should be used for the filtering during the current mojo execution.
-     * <br/>
+     * </p>
+     * <p>
      * Normally, these will be configured from a plugin's execution section, to provide a different
      * set of filters for a particular execution. For instance, starting in Maven 2.2.0, you have the
      * option of configuring executions with the id's <code>default-resources</code> and
      * <code>default-testResources</code> to supply different configurations for the two
      * different types of resources. By supplying <code>extraFilters</code> configurations, you
      * can separate which filters are used for which type of resource.
+     * </p>
      *
      * @since 2.3
      */
@@ -291,6 +294,7 @@ public class RarMojo
     private File buildDir;
 
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {
@@ -434,6 +438,9 @@ public class RarMojo
         }
     }
 
+    /**
+     * @return The buildDir.
+     */
     protected File getBuildDir()
     {
         if ( buildDir == null )
@@ -443,6 +450,12 @@ public class RarMojo
         return buildDir;
     }
 
+    /**
+     * @param basedir The basedir.
+     * @param finalName The finalName.
+     * @param classifier The classifier.
+     * @return the resulting file which contains classifier.
+     */
     protected static File getRarFile( File basedir, String finalName, String classifier )
     {
         if ( classifier == null )
