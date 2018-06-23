@@ -102,7 +102,7 @@ public class RarMojo
     /**
      * The name of the RAR file to generate.
      */
-    @Parameter( alias = "rarName", defaultValue = "${project.build.finalName}", required = true )
+    @Parameter( defaultValue = "${project.build.finalName}", required = true, readonly = true )
     private String finalName;
 
     /**
