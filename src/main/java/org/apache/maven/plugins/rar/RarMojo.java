@@ -128,7 +128,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "rar.filterRarSourceDirectory", defaultValue = "false" )
+    @Parameter( property = "maven.rar.filterRarSourceDirectory", defaultValue = "false" )
     private boolean filterRarSourceDirectory;
 
     /**
@@ -256,7 +256,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "warnOnMissingRaXml", defaultValue = "true" )
+    @Parameter( property = "maven.rar.warnOnMissingRaXml", defaultValue = "true" )
     protected boolean warnOnMissingRaXml;
 
     /**
