@@ -178,6 +178,10 @@ under the License.
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-invoker-plugin</artifactId>
               <configuration>
+                <properties>
+                  <!-- e.g. ensure that Java7 picks up TLSv1.2 when connecting with Central -->
+                  <https.protocols>${https.protocols}</https.protocols>
+                </properties>
                 <goals>
                   <goal>clean</goal>
                   <goal>package</goal>
