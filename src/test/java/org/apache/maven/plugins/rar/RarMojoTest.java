@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -80,6 +81,7 @@ public class RarMojoTest
         assertTrue( workDirectory.isDirectory() );
 
         File[] fileNames = workDirectory.listFiles();
+        assertNotNull( fileNames );
 
         List<String> expectedFiles = new ArrayList<String>();
 
@@ -164,6 +166,7 @@ public class RarMojoTest
         assertTrue( workDirectory.isDirectory() );
 
         File[] fileNames = workDirectory.listFiles();
+        assertNotNull( fileNames );
 
         List<String> expectedFiles = new ArrayList<String>();
         List<String> fileList = new ArrayList<String>();
@@ -238,6 +241,7 @@ public class RarMojoTest
         assertTrue( workDirectory.isDirectory() );
 
         File[] fileNames = workDirectory.listFiles();
+        assertNotNull( fileNames );
 
         List<String> expectedFiles = new ArrayList<String>();
         List<String> fileList = new ArrayList<String>();
@@ -337,7 +341,7 @@ public class RarMojoTest
 
             File[] files = file.listFiles();
 
-            for (File file1 : files) {
+            for (File file1 : Objects.requireNonNull( files ) ) {
                 addFileToList(file1, fileList);
             }
         }
