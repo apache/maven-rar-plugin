@@ -274,6 +274,16 @@ public class RarMojo
     private MavenProject project;
 
     /**
+     * Timestamp for reproducible output archive entries, either formatted as ISO 8601
+     * <code>yyyy-MM-dd'T'HH:mm:ssXXX</code> or as an int representing seconds since the epoch (like
+     * <a href="https://reproducible-builds.org/docs/source-date-epoch/">SOURCE_DATE_EPOCH</a>).
+     *
+     * @since 3.0.0
+     */
+    @Parameter( defaultValue = "${project.build.outputTimestamp}" )
+    private String outputTimestamp;
+
+    /**
      * The Jar archiver.
      */
     @Component( role = Archiver.class, hint = "jar" )
@@ -369,7 +379,11 @@ public class RarMojo
         {
             MavenArchiver archiver = new MavenArchiver();
             archiver.setArchiver( jarArchiver );
+            archiver.setCreatedBy( "Maven RAR Plugin", "org.apache.maven.plugins", "maven-rar-plugin" );
             archiver.setOutputFile( rarFile );
+
+            // configure for Reproducible Builds based on outputTimestamp value
+            archiver.configureReproducible( outputTimestamp );
 
             // Include custom manifest if necessary
             includeCustomManifestFile();
