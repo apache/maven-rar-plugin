@@ -83,7 +83,7 @@ public class RarMojoTest
         File[] fileNames = workDirectory.listFiles();
         assertNotNull( fileNames );
 
-        List<String> expectedFiles = new ArrayList<String>();
+        List<String> expectedFiles = new ArrayList<>();
 
         expectedFiles.add( "maven-artifact01-1.0-SNAPSHOT.jar" );
         expectedFiles.add( "maven-artifact02-1.0-SNAPSHOT.jar" );
@@ -116,7 +116,7 @@ public class RarMojoTest
         assertTrue( rarFile.exists() );
 
         //expected files/directories inside the rar file
-        expectedFiles = new ArrayList<String>();
+        expectedFiles = new ArrayList<>();
 
         expectedFiles.add( "META-INF/maven/org.apache.maven.test/maven-rar-test/pom.properties" );
         expectedFiles.add( "META-INF/maven/org.apache.maven.test/maven-rar-test/pom.xml" );
@@ -168,8 +168,8 @@ public class RarMojoTest
         File[] fileNames = workDirectory.listFiles();
         assertNotNull( fileNames );
 
-        List<String> expectedFiles = new ArrayList<String>();
-        List<String> fileList = new ArrayList<String>();
+        List<String> expectedFiles = new ArrayList<>();
+        List<String> fileList = new ArrayList<>();
 
         for ( File fileName : fileNames )
         {
@@ -191,7 +191,7 @@ public class RarMojoTest
         assertTrue( rarFile.exists() );
 
         //expected files/directories inside the rar file
-        expectedFiles = new ArrayList<String>();
+        expectedFiles = new ArrayList<>();
 
         expectedFiles.add( "META-INF/maven/org.apache.maven.test/maven-rar-test/pom.properties" );
         expectedFiles.add( "META-INF/maven/org.apache.maven.test/maven-rar-test/pom.xml" );
@@ -243,8 +243,8 @@ public class RarMojoTest
         File[] fileNames = workDirectory.listFiles();
         assertNotNull( fileNames );
 
-        List<String> expectedFiles = new ArrayList<String>();
-        List<String> fileList = new ArrayList<String>();
+        List<String> expectedFiles = new ArrayList<>();
+        List<String> fileList = new ArrayList<>();
 
         for ( File file : fileNames )
         {
@@ -267,7 +267,7 @@ public class RarMojoTest
         assertTrue( rarFile.exists() );
 
         //expected files/directories inside the rar file
-        expectedFiles = new ArrayList<String>();
+        expectedFiles = new ArrayList<>();
 
         expectedFiles.add( "META-INF/maven/org.apache.maven.test/maven-rar-test/pom.properties" );
         expectedFiles.add( "META-INF/maven/org.apache.maven.test/maven-rar-test/pom.xml" );

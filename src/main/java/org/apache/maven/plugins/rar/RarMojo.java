@@ -414,7 +414,7 @@ public class RarMojo
         resource.setTargetPath( getBuildDir().getAbsolutePath() );
         resource.setFiltering( filterRarSourceDirectory );
 
-        List<Resource> resources = new ArrayList<Resource>();
+        List<Resource> resources = new ArrayList<>();
         resources.add( resource );
 
         if ( rarResources != null && !rarResources.isEmpty() )

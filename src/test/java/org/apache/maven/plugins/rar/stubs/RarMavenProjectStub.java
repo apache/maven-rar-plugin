@@ -122,7 +122,7 @@ public class RarMavenProjectStub
 
     public Set<Artifact> getArtifacts()
     {
-        Set<Artifact> artifacts = new HashSet<Artifact>();
+        Set<Artifact> artifacts = new HashSet<>();
 
         artifacts.add( createArtifact( "org.apache.maven.test", "maven-artifact01", "1.0-SNAPSHOT", false ) );
         artifacts.add( createArtifact( "org.apache.maven.test", "maven-artifact02", "1.0-SNAPSHOT", false ) );
@@ -134,7 +134,7 @@ public class RarMavenProjectStub
     {
         if ( attachedArtifacts == null )
         {
-            attachedArtifacts = new ArrayList<Artifact>();
+            attachedArtifacts = new ArrayList<>();
         }
         return attachedArtifacts;
     }
