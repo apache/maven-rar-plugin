@@ -26,7 +26,7 @@ under the License.
     <artifactId>maven-plugins</artifactId>
     <groupId>org.apache.maven.plugins</groupId>
     <version>34</version>
-    <relativePath>../../pom/maven/maven-plugins/pom.xml</relativePath>
+    <relativePath/>
   </parent>
 
   <artifactId>maven-rar-plugin</artifactId>
@@ -53,7 +53,7 @@ under the License.
   </issueManagement>
   <ciManagement>
     <system>Jenkins</system>
-    <url>https://ci-builds.apache.org/job/Maven/job/maven-box/job/maven-rar-plugin/</url>
+    <url>https://ci-maven.apache.org/job/Maven/job/maven-box/job/maven-rar-plugin/</url>
   </ciManagement>
   <distributionManagement>
     <site>
@@ -72,8 +72,8 @@ under the License.
   </contributors>
   
   <properties>
-    <mavenVersion>3.0</mavenVersion>
-    <javaVersion>7</javaVersion>
+    <mavenVersion>3.2.5</mavenVersion>
+    <javaVersion>8</javaVersion>
     <project.build.outputTimestamp>2020-04-07T21:04:00Z</project.build.outputTimestamp>
   </properties>  
 
@@ -82,16 +82,19 @@ under the License.
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
@@ -101,7 +104,7 @@ under the License.
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-interpolation</artifactId>
-      <version>1.25</version>
+      <version>1.26</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -111,7 +114,7 @@ under the License.
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-shared-utils</artifactId>
-      <version>3.3.3</version>
+      <version>3.3.4</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
@@ -121,12 +124,12 @@ under the License.
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>4.2.5</version>
+      <version>4.2.7</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-archiver</artifactId>
-      <version>3.5.1</version>
+      <version>3.5.2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -143,7 +146,7 @@ under the License.
     <dependency>
       <groupId>org.apache.maven.plugin-testing</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
-      <version>2.1</version>
+      <version>3.3.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -183,10 +186,6 @@ under the License.
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-invoker-plugin</artifactId>
               <configuration>
-                <properties>
-                  <!-- e.g. ensure that Java7 picks up TLSv1.2 when connecting with Central -->
-                  <https.protocols>${https.protocols}</https.protocols>
-                </properties>
                 <goals>
                   <goal>clean</goal>
                   <goal>package</goal>
