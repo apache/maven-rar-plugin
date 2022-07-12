@@ -34,8 +34,8 @@ import org.apache.maven.lifecycle.mapping.LifecycleMapping;
 /**
  * {@code rar} packaging plugins bindings provider for {@code default} lifecycle.
  */
-@Named( "rar" )
 @Singleton
+@Named( "rar" )
 public final class RarLifecycleMappingProvider
         implements Provider<LifecycleMapping>
 {
