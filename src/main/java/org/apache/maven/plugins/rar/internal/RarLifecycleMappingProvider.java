@@ -39,6 +39,7 @@ import org.apache.maven.lifecycle.mapping.LifecycleMapping;
 public final class RarLifecycleMappingProvider
         implements Provider<LifecycleMapping>
 {
+    @SuppressWarnings( "checkstyle:linelength" )
     private static final String[] BINDINGS =
             {
                     "process-resources", "org.apache.maven.plugins:maven-resources-plugin:3.2.0:resources",
@@ -46,7 +47,7 @@ public final class RarLifecycleMappingProvider
                     "process-test-resources", "org.apache.maven.plugins:maven-resources-plugin:3.2.0:testResources",
                     "test-compile", "org.apache.maven.plugins:maven-compiler-plugin:3.8.1:testCompile",
                     "test", "org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M5:test",
-                    "package", "org.apache.maven.plugins:maven-rar-plugin:" + PluginInfo.get().getVersion() + ":rar",
+                    "package", "org.apache.maven.plugins:maven-rar-plugin:" + RarLifecycleMappingProvider.class.getPackage().getImplementationVersion() + ":rar",
                     "install", "org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install",
                     "deploy", "org.apache.maven.plugins:maven-deploy-plugin:3.0.0-M1:deploy"
             };
