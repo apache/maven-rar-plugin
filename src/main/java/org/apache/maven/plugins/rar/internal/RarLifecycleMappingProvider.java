@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.apache.maven.lifecycle.mapping.Lifecycle;
 import org.apache.maven.lifecycle.mapping.LifecycleMapping;
+import org.apache.maven.lifecycle.mapping.LifecyclePhase;
 
 /**
  * {@code rar} packaging plugins bindings provider for {@code default} lifecycle.
@@ -53,19 +54,19 @@ public final class RarLifecycleMappingProvider
             };
 
     private final Lifecycle defaultLifecycle;
-
     private final LifecycleMapping lifecycleMapping;
 
     public RarLifecycleMappingProvider()
     {
-        HashMap<String, String> bindings = new HashMap<>();
+        HashMap<String, LifecyclePhase> bindings = new HashMap<>();
         for ( int i = 0; i < BINDINGS.length; i = i + 2 )
         {
-            bindings.put( BINDINGS[i], BINDINGS[i + 1] );
+            bindings.put( BINDINGS[i], new LifecyclePhase( BINDINGS[i + 1] ) );
         }
         this.defaultLifecycle = new Lifecycle();
         this.defaultLifecycle.setId( "default" );
-        this.defaultLifecycle.setPhases( bindings );
+        this.defaultLifecycle.setLifecyclePhases( bindings );
+
 
         this.lifecycleMapping = new LifecycleMapping()
         {
@@ -94,7 +95,6 @@ public final class RarLifecycleMappingProvider
                 }
             }
         };
-
     }
 
     @Override
