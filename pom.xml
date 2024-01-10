@@ -70,12 +70,12 @@ under the License.
       <name>Philippe Marschall</name>
     </contributor>
   </contributors>
-  
+
   <properties>
     <javaVersion>8</javaVersion>
-    <mavenVersion>3.3.9</mavenVersion>
+    <mavenVersion>3.6.3</mavenVersion>
     <project.build.outputTimestamp>2022-07-17T16:41:19Z</project.build.outputTimestamp>
-  </properties>  
+  </properties>
 
   <dependencies>
     <dependency>
