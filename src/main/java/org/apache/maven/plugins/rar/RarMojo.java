@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.apache.maven.plugins.rar;
 
 /*
@@ -18,6 +36,14 @@ package org.apache.maven.plugins.rar;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
@@ -41,68 +67,61 @@ import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.util.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Builds J2EE Resource Adapter Archive (RAR) files.
  *
  * @author <a href="stephane.nicoll@gmail.com">Stephane Nicoll</a>
  * @version $Id$
  */
-@Mojo( name = "rar", threadSafe = true, defaultPhase = LifecyclePhase.PACKAGE,
-       requiresDependencyResolution = ResolutionScope.TEST )
-public class RarMojo
-    extends AbstractMojo
-{
+@Mojo(
+        name = "rar",
+        threadSafe = true,
+        defaultPhase = LifecyclePhase.PACKAGE,
+        requiresDependencyResolution = ResolutionScope.TEST)
+public class RarMojo extends AbstractMojo {
     private static final String RA_XML_URI = "META-INF/ra.xml";
 
     /**
      * Single directory for extra files to include in the RAR.
      */
-    @Parameter( defaultValue = "${basedir}/src/main/rar", required = true )
+    @Parameter(defaultValue = "${basedir}/src/main/rar", required = true)
     private File rarSourceDirectory;
 
     /**
      * The location of the ra.xml file to be used within the rar file.
      */
-    @Parameter( defaultValue = "${basedir}/src/main/rar/META-INF/ra.xml" )
+    @Parameter(defaultValue = "${basedir}/src/main/rar/META-INF/ra.xml")
     private File raXmlFile;
 
     /**
      * Specify if the generated jar file of this project should be
      * included in the rar file ; default is true.
      */
-    @Parameter( defaultValue = "true" )
+    @Parameter(defaultValue = "true")
     private Boolean includeJar;
 
     /**
      * The location of the manifest file to be used within the rar file.
      */
-    @Parameter( defaultValue = "${basedir}/src/main/rar/META-INF/MANIFEST.MF" )
+    @Parameter(defaultValue = "${basedir}/src/main/rar/META-INF/MANIFEST.MF")
     private File manifestFile;
 
     /**
      * Directory that resources are copied to during the build.
      */
-    @Parameter( defaultValue = "${project.build.directory}/${project.build.finalName}", required = true )
+    @Parameter(defaultValue = "${project.build.directory}/${project.build.finalName}", required = true)
     private String workDirectory;
 
     /**
      * The directory for the generated RAR.
      */
-    @Parameter( defaultValue = "${project.build.directory}", required = true )
+    @Parameter(defaultValue = "${project.build.directory}", required = true)
     private File outputDirectory;
 
     /**
      * The name of the RAR file to generate.
      */
-    @Parameter( defaultValue = "${project.build.finalName}", required = true, readonly = true )
+    @Parameter(defaultValue = "${project.build.finalName}", required = true, readonly = true)
     private String finalName;
 
     /**
@@ -113,7 +132,7 @@ public class RarMojo
      *
      * @since 2.4
      */
-    @Parameter( property = "maven.rar.classifier", defaultValue = "" )
+    @Parameter(property = "maven.rar.classifier", defaultValue = "")
     private String classifier;
 
     /**
@@ -128,19 +147,19 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.rar.filterRarSourceDirectory", defaultValue = "false" )
+    @Parameter(property = "maven.rar.filterRarSourceDirectory", defaultValue = "false")
     private boolean filterRarSourceDirectory;
 
     /**
      * @since 2.3
      */
-    @Parameter( defaultValue = "${session}", required = true, readonly = true )
+    @Parameter(defaultValue = "${session}", required = true, readonly = true)
     protected MavenSession session;
 
     /**
      * @since 2.3
      */
-    @Parameter( property = "encoding", defaultValue = "${project.build.sourceEncoding}" )
+    @Parameter(property = "encoding", defaultValue = "${project.build.sourceEncoding}")
     protected String encoding;
 
     /**
@@ -148,7 +167,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.resources.escapeWindowsPaths", defaultValue = "true" )
+    @Parameter(property = "maven.resources.escapeWindowsPaths", defaultValue = "true")
     protected boolean escapeWindowsPaths;
 
     /**
@@ -157,7 +176,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.resources.escapeString" )
+    @Parameter(property = "maven.resources.escapeString")
     protected String escapeString;
 
     /**
@@ -165,7 +184,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.resources.overwrite", defaultValue = "false" )
+    @Parameter(property = "maven.resources.overwrite", defaultValue = "false")
     private boolean overwrite;
 
     /**
@@ -173,7 +192,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.resources.includeEmptyDirs", defaultValue = "false" )
+    @Parameter(property = "maven.resources.includeEmptyDirs", defaultValue = "false")
     protected boolean includeEmptyDirs;
 
     /**
@@ -181,13 +200,13 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.resources.supportMultiLineFiltering", defaultValue = "false" )
+    @Parameter(property = "maven.resources.supportMultiLineFiltering", defaultValue = "false")
     private boolean supportMultiLineFiltering;
 
     /**
      * @since 2.3
      */
-    @Parameter( defaultValue = "true" )
+    @Parameter(defaultValue = "true")
     protected boolean useDefaultDelimiters;
 
     /**
@@ -248,7 +267,6 @@ public class RarMojo
     @Parameter
     protected List<RarResource> rarResources;
 
-
     /**
      * Whether or not warn if the <code>ra.xml</code> file is missing. Set to <code>false</code>
      * if you want you RAR built without a <code>ra.xml</code> file.
@@ -256,7 +274,7 @@ public class RarMojo
      *
      * @since 2.3
      */
-    @Parameter( property = "maven.rar.warnOnMissingRaXml", defaultValue = "true" )
+    @Parameter(property = "maven.rar.warnOnMissingRaXml", defaultValue = "true")
     protected boolean warnOnMissingRaXml;
 
     /**
@@ -264,13 +282,13 @@ public class RarMojo
      *
      * @since 2.4
      */
-    @Parameter( property = "maven.rar.skip" )
+    @Parameter(property = "maven.rar.skip")
     private boolean skip;
 
     /**
      * The maven project.
      */
-    @Parameter( defaultValue = "${project}", readonly = true, required = true )
+    @Parameter(defaultValue = "${project}", readonly = true, required = true)
     private MavenProject project;
 
     /**
@@ -280,19 +298,19 @@ public class RarMojo
      *
      * @since 3.0.0
      */
-    @Parameter( defaultValue = "${project.build.outputTimestamp}" )
+    @Parameter(defaultValue = "${project.build.outputTimestamp}")
     private String outputTimestamp;
 
     /**
      * The Jar archiver.
      */
-    @Component( role = Archiver.class, hint = "jar" )
+    @Component(role = Archiver.class, hint = "jar")
     private JarArchiver jarArchiver;
 
     /**
      * @since 2.3
      */
-    @Component( role = MavenResourcesFiltering.class, hint = "default" )
+    @Component(role = MavenResourcesFiltering.class, hint = "default")
     protected MavenResourcesFiltering mavenResourcesFiltering;
 
     /**
@@ -303,163 +321,130 @@ public class RarMojo
 
     private File buildDir;
 
-
     /** {@inheritDoc} */
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
 
-        if ( skip )
-        {
-            getLog().info( "Skipping rar generation." );
+        if (skip) {
+            getLog().info("Skipping rar generation.");
             return;
         }
 
         // Check if jar file is there and if requested, copy it
-        try
-        {
-            if ( includeJar )
-            {
-                File generatedJarFile = new File( outputDirectory, finalName + ".jar" );
-                if ( generatedJarFile.exists() )
-                {
-                    getLog().info( "Including generated jar file[" + generatedJarFile.getName() + "]" );
-                    FileUtils.copyFileToDirectory( generatedJarFile, getBuildDir() );
+        try {
+            if (includeJar) {
+                File generatedJarFile = new File(outputDirectory, finalName + ".jar");
+                if (generatedJarFile.exists()) {
+                    getLog().info("Including generated jar file[" + generatedJarFile.getName() + "]");
+                    FileUtils.copyFileToDirectory(generatedJarFile, getBuildDir());
                 }
             }
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Error copying generated Jar file", e );
+        } catch (IOException e) {
+            throw new MojoExecutionException("Error copying generated Jar file", e);
         }
 
         // Copy dependencies
-        try
-        {
+        try {
             Set<Artifact> artifacts = project.getArtifacts();
-            for ( Artifact artifact : artifacts )
-            {
+            for (Artifact artifact : artifacts) {
 
-                ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
-                if ( !artifact.isOptional() && filter.include( artifact )
-                    && artifact.getArtifactHandler().isAddedToClasspath() )
-                {
-                    getLog().info( "Copying artifact[" + artifact.getGroupId() + ", " + artifact.getId() + ", "
-                                       + artifact.getScope() + "]" );
-                    FileUtils.copyFileToDirectory( artifact.getFile(), getBuildDir() );
+                ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
+                if (!artifact.isOptional()
+                        && filter.include(artifact)
+                        && artifact.getArtifactHandler().isAddedToClasspath()) {
+                    getLog().info("Copying artifact[" + artifact.getGroupId() + ", " + artifact.getId() + ", "
+                            + artifact.getScope() + "]");
+                    FileUtils.copyFileToDirectory(artifact.getFile(), getBuildDir());
                 }
             }
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Error copying RAR dependencies", e );
+        } catch (IOException e) {
+            throw new MojoExecutionException("Error copying RAR dependencies", e);
         }
 
         resourceHandling();
 
         // Include custom manifest if necessary
-        try
-        {
+        try {
             includeCustomRaXmlFile();
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Error copying ra.xml file", e );
+        } catch (IOException e) {
+            throw new MojoExecutionException("Error copying ra.xml file", e);
         }
 
         // Check if connector deployment descriptor is there
-        File ddFile = new File( getBuildDir(), RA_XML_URI );
-        if ( !ddFile.exists() && warnOnMissingRaXml )
-        {
-            getLog().warn( "Connector deployment descriptor: " + ddFile.getAbsolutePath() + " does not exist." );
+        File ddFile = new File(getBuildDir(), RA_XML_URI);
+        if (!ddFile.exists() && warnOnMissingRaXml) {
+            getLog().warn("Connector deployment descriptor: " + ddFile.getAbsolutePath() + " does not exist.");
         }
 
-        File rarFile = getRarFile( outputDirectory, finalName, classifier );
-        try
-        {
+        File rarFile = getRarFile(outputDirectory, finalName, classifier);
+        try {
             MavenArchiver archiver = new MavenArchiver();
-            archiver.setArchiver( jarArchiver );
-            archiver.setCreatedBy( "Maven RAR Plugin", "org.apache.maven.plugins", "maven-rar-plugin" );
-            archiver.setOutputFile( rarFile );
+            archiver.setArchiver(jarArchiver);
+            archiver.setCreatedBy("Maven RAR Plugin", "org.apache.maven.plugins", "maven-rar-plugin");
+            archiver.setOutputFile(rarFile);
 
             // configure for Reproducible Builds based on outputTimestamp value
-            archiver.configureReproducible( outputTimestamp );
+            archiver.configureReproducible(outputTimestamp);
 
             // Include custom manifest if necessary
             includeCustomManifestFile();
 
-            archiver.getArchiver().addDirectory( getBuildDir() );
-            archiver.createArchive( session, project, archive );
-        }
-        catch ( Exception e )
-        {
-            throw new MojoExecutionException( "Error assembling RAR", e );
+            archiver.getArchiver().addDirectory(getBuildDir());
+            archiver.createArchive(session, project, archive);
+        } catch (Exception e) {
+            throw new MojoExecutionException("Error assembling RAR", e);
         }
 
-        if ( classifier != null )
-        {
-            projectHelper.attachArtifact( project, "rar", classifier, rarFile );
-        }
-        else
-        {
-            project.getArtifact().setFile( rarFile );
+        if (classifier != null) {
+            projectHelper.attachArtifact(project, "rar", classifier, rarFile);
+        } else {
+            project.getArtifact().setFile(rarFile);
         }
     }
 
-    private void resourceHandling()
-        throws MojoExecutionException
-    {
+    private void resourceHandling() throws MojoExecutionException {
         Resource resource = new Resource();
-        resource.setDirectory( rarSourceDirectory.getAbsolutePath() );
-        resource.setTargetPath( getBuildDir().getAbsolutePath() );
-        resource.setFiltering( filterRarSourceDirectory );
+        resource.setDirectory(rarSourceDirectory.getAbsolutePath());
+        resource.setTargetPath(getBuildDir().getAbsolutePath());
+        resource.setFiltering(filterRarSourceDirectory);
 
         List<Resource> resources = new ArrayList<>();
-        resources.add( resource );
+        resources.add(resource);
 
-        if ( rarResources != null && !rarResources.isEmpty() )
-        {
-            resources.addAll( rarResources );
+        if (rarResources != null && !rarResources.isEmpty()) {
+            resources.addAll(rarResources);
         }
 
-        MavenResourcesExecution mavenResourcesExecution =
-            new MavenResourcesExecution( resources, getBuildDir(), project, encoding, filters,
-                                         Collections.<String>emptyList(), session );
+        MavenResourcesExecution mavenResourcesExecution = new MavenResourcesExecution(
+                resources, getBuildDir(), project, encoding, filters, Collections.<String>emptyList(), session);
 
-        mavenResourcesExecution.setEscapeWindowsPaths( escapeWindowsPaths );
+        mavenResourcesExecution.setEscapeWindowsPaths(escapeWindowsPaths);
 
         // never include project build filters in this call, since we've already accounted for the POM build filters
         // above, in getCombinedFiltersList().
-        mavenResourcesExecution.setInjectProjectBuildFilters( false );
+        mavenResourcesExecution.setInjectProjectBuildFilters(false);
 
-        mavenResourcesExecution.setEscapeString( escapeString );
-        mavenResourcesExecution.setOverwrite( overwrite );
-        mavenResourcesExecution.setIncludeEmptyDirs( includeEmptyDirs );
-        mavenResourcesExecution.setSupportMultiLineFiltering( supportMultiLineFiltering );
-        mavenResourcesExecution.setDelimiters( delimiters, useDefaultDelimiters );
+        mavenResourcesExecution.setEscapeString(escapeString);
+        mavenResourcesExecution.setOverwrite(overwrite);
+        mavenResourcesExecution.setIncludeEmptyDirs(includeEmptyDirs);
+        mavenResourcesExecution.setSupportMultiLineFiltering(supportMultiLineFiltering);
+        mavenResourcesExecution.setDelimiters(delimiters, useDefaultDelimiters);
 
-        if ( nonFilteredFileExtensions != null )
-        {
-            mavenResourcesExecution.setNonFilteredFileExtensions( nonFilteredFileExtensions );
+        if (nonFilteredFileExtensions != null) {
+            mavenResourcesExecution.setNonFilteredFileExtensions(nonFilteredFileExtensions);
         }
-        try
-        {
-            mavenResourcesFiltering.filterResources( mavenResourcesExecution );
-        }
-        catch ( MavenFilteringException e )
-        {
-            throw new MojoExecutionException( "Error copying RAR resources", e );
+        try {
+            mavenResourcesFiltering.filterResources(mavenResourcesExecution);
+        } catch (MavenFilteringException e) {
+            throw new MojoExecutionException("Error copying RAR resources", e);
         }
     }
 
     /**
      * @return The buildDir.
      */
-    protected File getBuildDir()
-    {
-        if ( buildDir == null )
-        {
-            buildDir = new File( workDirectory );
+    protected File getBuildDir() {
+        if (buildDir == null) {
+            buildDir = new File(workDirectory);
         }
         return buildDir;
     }
@@ -470,50 +455,37 @@ public class RarMojo
      * @param classifier The classifier.
      * @return the resulting file which contains classifier.
      */
-    protected static File getRarFile( File basedir, String finalName, String classifier )
-    {
-        if ( classifier == null )
-        {
+    protected static File getRarFile(File basedir, String finalName, String classifier) {
+        if (classifier == null) {
             classifier = "";
-        }
-        else if ( classifier.trim().length() > 0 && !classifier.startsWith( "-" ) )
-        {
+        } else if (classifier.trim().length() > 0 && !classifier.startsWith("-")) {
             classifier = "-" + classifier;
         }
 
-        return new File( basedir, finalName + classifier + ".rar" );
+        return new File(basedir, finalName + classifier + ".rar");
     }
 
-    private void includeCustomManifestFile()
-        throws IOException
-    {
+    private void includeCustomManifestFile() throws IOException {
         File customManifestFile = manifestFile;
-        if ( !customManifestFile.exists() )
-        {
-            getLog().info( "Could not find manifest file: " + manifestFile + " - Generating one" );
-        }
-        else
-        {
-            getLog().info( "Including custom manifest file[" + customManifestFile + "]" );
-            archive.setManifestFile( customManifestFile );
-            File metaInfDir = new File( getBuildDir(), "META-INF" );
-            FileUtils.copyFileToDirectory( customManifestFile, metaInfDir );
+        if (!customManifestFile.exists()) {
+            getLog().info("Could not find manifest file: " + manifestFile + " - Generating one");
+        } else {
+            getLog().info("Including custom manifest file[" + customManifestFile + "]");
+            archive.setManifestFile(customManifestFile);
+            File metaInfDir = new File(getBuildDir(), "META-INF");
+            FileUtils.copyFileToDirectory(customManifestFile, metaInfDir);
         }
     }
 
-    private void includeCustomRaXmlFile()
-        throws IOException
-    {
-        if ( raXmlFile == null )
-        {
+    private void includeCustomRaXmlFile() throws IOException {
+        if (raXmlFile == null) {
             return;
         }
         File raXml = raXmlFile;
-        if ( raXml.exists() )
-        {
-            getLog().info( "Using ra.xml " + raXmlFile );
-            File metaInfDir = new File( getBuildDir(), "META-INF" );
-            FileUtils.copyFileToDirectory( raXml, metaInfDir );
+        if (raXml.exists()) {
+            getLog().info("Using ra.xml " + raXmlFile);
+            File metaInfDir = new File(getBuildDir(), "META-INF");
+            FileUtils.copyFileToDirectory(raXml, metaInfDir);
         }
     }
 }
