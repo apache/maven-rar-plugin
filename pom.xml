@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 Licensed to the Apache Software Foundation (ASF) under one
 or more contributor license agreements.  See the NOTICE file
@@ -18,13 +17,12 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-plugins</artifactId>
     <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-plugins</artifactId>
     <version>41</version>
     <relativePath />
   </parent>
@@ -37,6 +35,15 @@ under the License.
   <description>Builds a Resource Adapter Archive (RAR) from the project output for deployment to a J2EE server.</description>
   <inceptionYear>2004</inceptionYear>
 
+  <contributors>
+    <contributor>
+      <name>Kresimir Kovac</name>
+    </contributor>
+    <contributor>
+      <name>Philippe Marschall</name>
+    </contributor>
+  </contributors>
+
   <prerequisites>
     <maven>${mavenVersion}</maven>
   </prerequisites>
@@ -44,8 +51,8 @@ under the License.
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-rar-plugin.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-rar-plugin.git</developerConnection>
-    <url>https://github.com/apache/maven-rar-plugin/tree/${project.scm.tag}</url>
     <tag>HEAD</tag>
+    <url>https://github.com/apache/maven-rar-plugin/tree/${project.scm.tag}</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
@@ -62,20 +69,11 @@ under the License.
     </site>
   </distributionManagement>
 
-  <contributors>
-    <contributor>
-      <name>Kresimir Kovac</name>
-    </contributor>
-    <contributor>
-      <name>Philippe Marschall</name>
-    </contributor>
-  </contributors>
-  
   <properties>
     <javaVersion>8</javaVersion>
     <mavenVersion>3.3.9</mavenVersion>
     <project.build.outputTimestamp>2022-07-17T16:41:19Z</project.build.outputTimestamp>
-  </properties>  
+  </properties>
 
   <dependencies>
     <dependency>
@@ -166,8 +164,8 @@ under the License.
   <build>
     <resources>
       <resource>
-        <directory>src/main/filtered-resources</directory>
         <filtering>true</filtering>
+        <directory>src/main/filtered-resources</directory>
       </resource>
     </resources>
     <pluginManagement>
