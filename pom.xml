@@ -70,7 +70,6 @@ under the License.
   </distributionManagement>
 
   <properties>
-    <javaVersion>8</javaVersion>
     <mavenVersion>3.6.3</mavenVersion>
     <project.build.outputTimestamp>2022-07-17T16:41:19Z</project.build.outputTimestamp>
   </properties>
@@ -124,7 +123,11 @@ under the License.
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-xml</artifactId>
+      <version>3.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
@@ -202,10 +205,6 @@ under the License.
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-invoker-plugin</artifactId>
               <configuration>
-                <properties>
-                  <!-- e.g. ensure that Java7 picks up TLSv1.2 when connecting with Central -->
-                  <https.protocols>${https.protocols}</https.protocols>
-                </properties>
                 <goals>
                   <goal>clean</goal>
                   <goal>package</goal>
