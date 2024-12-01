@@ -193,6 +193,7 @@ under the License.
             </goals>
             <configuration>
               <failOnWarning>true</failOnWarning>
+              <ignoredDependencies>junit:junit:*,org.apache.maven:maven-compat:*</ignoredDependencies>
             </configuration>
           </execution>
         </executions>
