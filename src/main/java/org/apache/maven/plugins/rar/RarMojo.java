@@ -37,6 +37,8 @@ package org.apache.maven.plugins.rar;
  * under the License.
  */
 
+import javax.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +55,6 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -63,7 +64,6 @@ import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
-import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -304,22 +304,29 @@ public class RarMojo extends AbstractMojo {
     /**
      * The Jar archiver.
      */
-    @Component(role = Archiver.class, hint = "jar")
     private JarArchiver jarArchiver;
 
     /**
      * @since 2.3
      */
-    @Component(role = MavenResourcesFiltering.class, hint = "default")
     protected MavenResourcesFiltering mavenResourcesFiltering;
 
     /**
      * @since 2.4
      */
-    @Component
     private MavenProjectHelper projectHelper;
 
     private File buildDir;
+
+    @Inject
+    public RarMojo(
+            JarArchiver jarArchiver,
+            MavenResourcesFiltering mavenResourcesFiltering,
+            MavenProjectHelper projectHelper) {
+        this.jarArchiver = jarArchiver;
+        this.mavenResourcesFiltering = mavenResourcesFiltering;
+        this.projectHelper = projectHelper;
+    }
 
     /** {@inheritDoc} */
     public void execute() throws MojoExecutionException {
