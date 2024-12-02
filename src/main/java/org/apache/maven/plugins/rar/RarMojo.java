@@ -268,7 +268,7 @@ public class RarMojo extends AbstractMojo {
     protected List<RarResource> rarResources;
 
     /**
-     * Whether or not warn if the <code>ra.xml</code> file is missing. Set to <code>false</code>
+     * Whether to warn if the <code>ra.xml</code> file is missing. Set to <code>false</code>
      * if you want you RAR built without a <code>ra.xml</code> file.
      * This may be useful if you are building against JCA 1.6 or later.
      *
@@ -304,17 +304,17 @@ public class RarMojo extends AbstractMojo {
     /**
      * The Jar archiver.
      */
-    private JarArchiver jarArchiver;
+    private final JarArchiver jarArchiver;
 
     /**
      * @since 2.3
      */
-    protected MavenResourcesFiltering mavenResourcesFiltering;
+    protected final MavenResourcesFiltering mavenResourcesFiltering;
 
     /**
      * @since 2.4
      */
-    private MavenProjectHelper projectHelper;
+    private final MavenProjectHelper projectHelper;
 
     private File buildDir;
 
@@ -465,7 +465,7 @@ public class RarMojo extends AbstractMojo {
     protected static File getRarFile(File basedir, String finalName, String classifier) {
         if (classifier == null) {
             classifier = "";
-        } else if (classifier.trim().length() > 0 && !classifier.startsWith("-")) {
+        } else if (!classifier.trim().isEmpty() && !classifier.startsWith("-")) {
             classifier = "-" + classifier;
         }
 

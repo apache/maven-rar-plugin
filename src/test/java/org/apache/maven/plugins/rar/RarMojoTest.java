@@ -305,9 +305,7 @@ public class RarMojoTest extends AbstractMojoTestCase {
     }
 
     private int getSizeOfExpectedFiles(List<String> fileList, List<String> expectedFiles) {
-        for (Object aFileList : fileList) {
-            String fileName = (String) aFileList;
-
+        for (String fileName : fileList) {
             if (expectedFiles.contains(fileName)) {
                 expectedFiles.remove(fileName);
                 assertFalse(expectedFiles.contains(fileName));
