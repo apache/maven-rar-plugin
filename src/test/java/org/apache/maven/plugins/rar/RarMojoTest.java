@@ -136,15 +136,13 @@ public class RarMojoTest extends AbstractMojoTestCase {
         expectedFiles.add("maven-artifact02-1.0-SNAPSHOT.jar");
         expectedFiles.add("test-rar.jar");
 
-        ZipFile rar = new ZipFile(rarFile);
+        try (ZipFile rar = new ZipFile(rarFile)) {
+            Enumeration<? extends ZipEntry> entries = rar.entries();
 
-        Enumeration<? extends ZipEntry> entries = rar.entries();
+            assertTrue(entries.hasMoreElements());
 
-        assertTrue(entries.hasMoreElements());
-
-        assertEquals(0, getSizeOfExpectedFiles(entries, expectedFiles));
-
-        rar.close();
+            assertEquals(0, getSizeOfExpectedFiles(entries, expectedFiles));
+        }
     }
 
     public void testBasicRarWithDescriptor() throws Exception {
@@ -207,15 +205,13 @@ public class RarMojoTest extends AbstractMojoTestCase {
         expectedFiles.add("maven-artifact01-1.0-SNAPSHOT.jar");
         expectedFiles.add("maven-artifact02-1.0-SNAPSHOT.jar");
 
-        ZipFile rar = new ZipFile(rarFile);
+        try (ZipFile rar = new ZipFile(rarFile)) {
+            Enumeration<? extends ZipEntry> entries = rar.entries();
 
-        Enumeration<? extends ZipEntry> entries = rar.entries();
+            assertTrue(entries.hasMoreElements());
 
-        assertTrue(entries.hasMoreElements());
-
-        assertEquals(0, getSizeOfExpectedFiles(entries, expectedFiles));
-
-        rar.close();
+            assertEquals(0, getSizeOfExpectedFiles(entries, expectedFiles));
+        }
     }
 
     public void testBasicRarWithManifest() throws Exception {
@@ -279,15 +275,13 @@ public class RarMojoTest extends AbstractMojoTestCase {
         expectedFiles.add("maven-artifact01-1.0-SNAPSHOT.jar");
         expectedFiles.add("maven-artifact02-1.0-SNAPSHOT.jar");
 
-        ZipFile rar = new ZipFile(rarFile);
+        try (ZipFile rar = new ZipFile(rarFile)) {
+            Enumeration<? extends ZipEntry> entries = rar.entries();
 
-        Enumeration<? extends ZipEntry> entries = rar.entries();
+            assertTrue(entries.hasMoreElements());
 
-        assertTrue(entries.hasMoreElements());
-
-        assertEquals(0, getSizeOfExpectedFiles(entries, expectedFiles));
-
-        rar.close();
+            assertEquals(0, getSizeOfExpectedFiles(entries, expectedFiles));
+        }
     }
 
     private int getSizeOfExpectedFiles(Enumeration<? extends ZipEntry> entries, List<String> expectedFiles) {
