@@ -55,8 +55,8 @@ under the License.
     <url>https://github.com/apache/maven-rar-plugin/tree/${project.scm.tag}</url>
   </scm>
   <issueManagement>
-    <system>JIRA</system>
-    <url>https://issues.apache.org/jira/browse/MRAR</url>
+    <system>GitHub</system>
+    <url>https://github.com/apache/maven-rar-plugin/issues/</url>
   </issueManagement>
   <ciManagement>
     <system>Jenkins</system>
