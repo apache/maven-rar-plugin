@@ -45,12 +45,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Organization;
-import org.apache.maven.model.Profile;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.PlexusTestCase;
 
@@ -74,12 +72,11 @@ public class RarMavenProjectStub extends MavenProject {
 
         super.setOrganization(org);
         super.setFile(getFile());
-        super.setExtensionArtifacts(Collections.<Artifact>emptySet());
         super.setArtifact(getArtifact());
-        super.setRemoteArtifactRepositories(Collections.<ArtifactRepository>emptyList());
-        super.setPluginArtifactRepositories(Collections.<ArtifactRepository>emptyList());
-        super.setCollectedProjects(Collections.<MavenProject>emptyList());
-        super.setActiveProfiles(Collections.<Profile>emptyList());
+        super.setRemoteArtifactRepositories(Collections.emptyList());
+        super.setPluginArtifactRepositories(Collections.emptyList());
+        super.setCollectedProjects(Collections.emptyList());
+        super.setActiveProfiles(Collections.emptyList());
 
         super.addCompileSourceRoot(getBasedir() + "/src/test/resources/unit/basic-rar-test/src/main/java");
         super.addTestCompileSourceRoot(getBasedir() + "/src/test/resources/unit/basic-rar-test/src/test/java");
