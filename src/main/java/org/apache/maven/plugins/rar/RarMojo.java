@@ -391,7 +391,7 @@ public class RarMojo extends AbstractMojo {
         archiver.setOutputFile(rarFile);
 
         // configure for Reproducible Builds based on outputTimestamp value
-        archiver.configureReproducible(outputTimestamp);
+        archiver.configureReproducibleBuild(outputTimestamp);
 
         try {
             // Include custom manifest if necessary
