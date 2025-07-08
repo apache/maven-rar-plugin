@@ -50,6 +50,7 @@ import java.util.Set;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Resource;
@@ -65,6 +66,7 @@ import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
+import org.codehaus.plexus.archiver.jar.ManifestException;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
@@ -383,21 +385,21 @@ public class RarMojo extends AbstractMojo {
         }
 
         File rarFile = getRarFile(outputDirectory, finalName, classifier);
+        MavenArchiver archiver = new MavenArchiver();
+        archiver.setArchiver(jarArchiver);
+        archiver.setCreatedBy("Maven RAR Plugin", "org.apache.maven.plugins", "maven-rar-plugin");
+        archiver.setOutputFile(rarFile);
+
+        // configure for Reproducible Builds based on outputTimestamp value
+        archiver.configureReproducibleBuild(outputTimestamp);
+
         try {
-            MavenArchiver archiver = new MavenArchiver();
-            archiver.setArchiver(jarArchiver);
-            archiver.setCreatedBy("Maven RAR Plugin", "org.apache.maven.plugins", "maven-rar-plugin");
-            archiver.setOutputFile(rarFile);
-
-            // configure for Reproducible Builds based on outputTimestamp value
-            archiver.configureReproducibleBuild(outputTimestamp);
-
             // Include custom manifest if necessary
             includeCustomManifestFile();
 
             archiver.getArchiver().addDirectory(getBuildDir());
             archiver.createArchive(session, project, archive);
-        } catch (Exception e) {
+        } catch (IOException | ManifestException | DependencyResolutionRequiredException e) {
             throw new MojoExecutionException("Error assembling RAR", e);
         }
 
