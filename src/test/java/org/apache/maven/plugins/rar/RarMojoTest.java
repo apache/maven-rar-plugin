@@ -47,11 +47,19 @@ import java.util.zip.ZipFile;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:aramirez@apache.org">Allan Ramirez</a>
  */
 public class RarMojoTest extends AbstractMojoTestCase {
+    @Test
     public void testRarTestEnvironment() throws Exception {
         File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-test/plugin-config.xml");
 
@@ -60,6 +68,7 @@ public class RarMojoTest extends AbstractMojoTestCase {
         assertNotNull(mojo);
     }
 
+    @Test
     public void testBasicRar() throws Exception {
         File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-test/plugin-config.xml");
 
@@ -100,7 +109,7 @@ public class RarMojoTest extends AbstractMojoTestCase {
         expectedFiles.add("maven-artifact02-1.0-SNAPSHOT.jar");
         expectedFiles.add("test-rar.jar");
 
-        assertEquals("Files in working directory", expectedFiles.size(), fileNames.length);
+        assertEquals(expectedFiles.size(), fileNames.length, "Files in working directory");
 
         for (File fileName1 : fileNames) {
             String fileName = fileName1.getName();
@@ -145,6 +154,7 @@ public class RarMojoTest extends AbstractMojoTestCase {
         }
     }
 
+    @Test
     public void testBasicRarWithDescriptor() throws Exception {
         File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-with-descriptor/plugin-config.xml");
 
@@ -214,6 +224,7 @@ public class RarMojoTest extends AbstractMojoTestCase {
         }
     }
 
+    @Test
     public void testBasicRarWithManifest() throws Exception {
         File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-with-manifest/plugin-config.xml");
 
