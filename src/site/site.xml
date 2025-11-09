@@ -36,6 +36,7 @@ under the License.
       <item name="Exclude the project jar from the rar" href="examples/exclude-project-jar.html"/>
       <item name="Custom location of Resource Adapter Descriptor" href="examples/ra-custom-location.html" />
       <item name="Include extra files in RAR" href="examples/include-extra-files.html" />
+      <item name="Using rarResources" href="examples/rar-resources.html" />
       <item name="Adding Manifest File" href="examples/manifest.html" />
     </menu>
     <menu name="Resources">
