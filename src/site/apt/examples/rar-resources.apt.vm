@@ -1,0 +1,183 @@
+  ------
+  Using rarResources
+  ------
+  ------
+  2025
+  ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one                                                                                                      
+~~ or more contributor license agreements.  See the NOTICE file                                                                                                    
+~~ distributed with this work for additional information                                                                                                           
+~~ regarding copyright ownership.  The ASF licenses this file                                                                                                      
+~~ to you under the Apache License, Version 2.0 (the                                                                                                               
+~~ "License"); you may not use this file except in compliance                                                                                                      
+~~ with the License.  You may obtain a copy of the License at                                                                                                      
+~~                                                                                                                                                                 
+~~   http://www.apache.org/licenses/LICENSE-2.0                                                                                                                    
+~~                                                                                                                                                                 
+~~ Unless required by applicable law or agreed to in writing,                                                                                                      
+~~ software distributed under the License is distributed on an                                                                                                     
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY                                                                                                          
+~~ KIND, either express or implied.  See the License for the                                                                                                       
+~~ specific language governing permissions and limitations                                                                                                         
+~~ under the License.               
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Using rarResources
+
+  The <<<rarResources>>> parameter allows you to include additional resources
+  from custom directories into your RAR archive. Each resource can be configured
+  with a source directory, target path within the RAR, and optional filtering.
+
+* Basic Configuration
+
+  To add extra resources to your RAR, configure the <<<rarResources>>> parameter
+  with one or more <<<rarResource>>> elements. Each <<<rarResource>>> element
+  supports the following options:
+
+  * <<<directory>>> - The source directory containing the files to include
+
+  * <<<targetPath>>> - The destination path within the RAR archive
+
+  * <<<filtering>>> - Whether to apply Maven filtering to the files (default: false)
+
+  * <<<includes>>> - File patterns to include (optional)
+
+  * <<<excludes>>> - File patterns to exclude (optional)
+
++---+
+<project>
+  [...]
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-rar-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <rarResources>
+            <rarResource>
+              <directory>${basedir}/src/main/ext</directory>
+              <targetPath>ext</targetPath>
+            </rarResource>
+          </rarResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  [...]
+</project>
++---+
+
+* Using Multiple Resource Directories
+
+  You can configure multiple <<<rarResource>>> elements to include files from
+  different source directories into different locations within the RAR archive:
+
++---+
+<project>
+  [...]
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-rar-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <rarResources>
+            <rarResource>
+              <directory>${basedir}/src/main/ext</directory>
+              <targetPath>ext</targetPath>
+            </rarResource>
+            <rarResource>
+              <directory>${basedir}/src/main/config</directory>
+              <targetPath>config</targetPath>
+            </rarResource>
+          </rarResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  [...]
+</project>
++---+
+
+* Applying Maven Filtering
+
+  To enable Maven property filtering for specific resources, set the
+  <<<filtering>>> option to <<<true>>>. This will replace Maven properties
+  (like <<<$\{project.version\}>>>) with their actual values during the build:
+
++---+
+<project>
+  [...]
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-rar-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <rarResources>
+            <rarResource>
+              <directory>${basedir}/src/main/ext</directory>
+              <targetPath>ext</targetPath>
+            </rarResource>
+            <rarResource>
+              <directory>${basedir}/src/main/ext-filtered</directory>
+              <targetPath>ext-filtered</targetPath>
+              <filtering>true</filtering>
+            </rarResource>
+          </rarResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  [...]
+</project>
++---+
+
+* Using Includes and Excludes
+
+  You can filter which files to include from a directory using the <<<includes>>>
+  and <<<excludes>>> options:
+
++---+
+<project>
+  [...]
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-rar-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <rarResources>
+            <rarResource>
+              <directory>${basedir}/src/main/resources</directory>
+              <targetPath>lib</targetPath>
+              <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+              </includes>
+              <excludes>
+                <exclude>**/test/**</exclude>
+              </excludes>
+            </rarResource>
+          </rarResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  [...]
+</project>
++---+
+
+  Then execute the plugin by invoking the <<<rar:rar>>> goal.
+
++---+
+mvn rar:rar
++---+
+

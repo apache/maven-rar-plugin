@@ -67,13 +67,15 @@ ${project.name}
   To provide you with better understanding on some usages of the Plugin Name,
   you can take a look into the following examples:
 
-  * {{{./examples/exclude-project-jar.html}Exclude the project jar from the rar}}
+  * {{{./examples/include-extra-files.html}Including extra files in RAR}} - Configure the default RAR source directory
 
-  * {{{./examples/ra-custom-location.html}Custom location of Resource Adapter Descriptor}}
+  * {{{./examples/rar-resources.html}Using rarResources}} - Add resources from multiple directories with filtering support
 
-  * {{{./examples/include-extra-files.html}Include extra files in RAR}}
+  * {{{./examples/ra-custom-location.html}Custom location of Resource Adapter Descriptor}} - Specify a custom ra.xml location
 
-  * {{{./examples/manifest.html}Adding Manifest File}}
+  * {{{./examples/manifest.html}Adding Manifest File}} - Include a custom MANIFEST.MF
+
+  * {{{./examples/exclude-project-jar.html}Exclude the project jar from the rar}} - Control whether the project's JAR is included
 
   []
 
