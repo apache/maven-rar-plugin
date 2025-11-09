@@ -28,7 +28,7 @@ under the License.
   </parent>
 
   <artifactId>maven-rar-plugin</artifactId>
-  <version>3.1.0</version>
+  <version>3.1.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven RAR Plugin</name>
@@ -51,7 +51,7 @@ under the License.
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-rar-plugin.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-rar-plugin.git</developerConnection>
-    <tag>maven-rar-plugin-3.1.0</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/apache/maven-rar-plugin/tree/${project.scm.tag}</url>
   </scm>
   <issueManagement>
@@ -71,7 +71,7 @@ under the License.
 
   <properties>
     <mavenVersion>3.9.11</mavenVersion>
-    <project.build.outputTimestamp>2025-11-09T15:12:31Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-11-09T15:12:45Z</project.build.outputTimestamp>
 
     <version.maven-invoker-plugin>3.9.1</version.maven-invoker-plugin>
   </properties>
