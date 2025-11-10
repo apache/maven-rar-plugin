@@ -120,13 +120,13 @@ public class RarMojo extends AbstractMojo {
 
     /**
      * The archive configuration to use.
-     * See <a href="http://maven.apache.org/shared/maven-archiver/index.html">Maven Archiver Reference</a>.
+     * See <a href="https://maven.apache.org/shared/maven-archiver/index.html">Maven Archiver Reference</a>.
      */
     @Parameter
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
-     * Allow filtering of @link{rarSourceDirectory}.
+     * Allow filtering of {@link rarSourceDirectory}.
      *
      * @since 2.3
      */
