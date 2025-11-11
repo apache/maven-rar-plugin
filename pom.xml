@@ -127,11 +127,6 @@ under the License.
       <version>3.4.0</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.19.0</version>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
       <version>4.10.4</version>
@@ -140,11 +135,6 @@ under the License.
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-archiver</artifactId>
       <version>3.6.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-interpolation</artifactId>
-      <version>1.29</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
