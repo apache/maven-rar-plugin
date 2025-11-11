@@ -24,6 +24,7 @@ import javax.inject.Singleton;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,13 @@ public final class RarLifecycleMappingProvider implements Provider<LifecycleMapp
             @Override
             public Map<String, String> getPhases(String lifecycle) {
                 if ("default".equals(lifecycle)) {
-                    return defaultLifecycle.getPhases();
+                    Map<String, LifecyclePhase> lifecyclePhases = defaultLifecycle.getLifecyclePhases();
+                    Map<String, String> phases = new LinkedHashMap<>();
+                    for (Map.Entry<String, LifecyclePhase> entry : lifecyclePhases.entrySet()) {
+                        phases.put(entry.getKey(), entry.getValue().toString());
+                    }
+                    return phases;
+
                 } else {
                     return null;
                 }
