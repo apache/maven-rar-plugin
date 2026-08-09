@@ -31,7 +31,7 @@ import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Organization;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.testing.PlexusExtension;
 
 /**
  * @author <a href="mailto:aramirez@apache.org">Allan Ramirez</a>
@@ -90,7 +90,7 @@ public class RarMavenProjectStub extends MavenProject {
     }
 
     public File getBasedir() {
-        return new File(PlexusTestCase.getBasedir());
+        return new File(PlexusExtension.getBasedir());
     }
 
     public Artifact getArtifact() {
