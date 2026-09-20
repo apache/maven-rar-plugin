@@ -35,10 +35,10 @@ try
 
     JarFile jar = new JarFile( jarFile );
 
-    String[] includedEntries = {
+    String[] includedEntries = [
         "META-INF/ra.xml",
         "SomeResource.txt",
-    };
+    ];
     for ( String included : includedEntries )
     {
         System.out.println( "Checking for existence of " + included );
@@ -53,7 +53,7 @@ try
 
     String content = new String(IOUtil.toByteArray( stream ));
 
-    int idx = content.indexOf("${project.version}");
+    int idx = content.indexOf('${project.version}');
 
     if (idx<1) {
       System.out.println("SomeResource.txt not filtered");

@@ -35,12 +35,12 @@ try
 
     JarFile jar = new JarFile( jarFile );
 
-    String[] includedEntries = {
+    String[] includedEntries = [
         "META-INF/ra.xml",
         "SomeResource.txt",
         "ext/wine.txt",
         "ext-filtered/wine.txt"
-    };
+    ];
     for ( String included : includedEntries )
     {
         System.out.println( "Checking for existence of " + included );
@@ -66,7 +66,7 @@ try
 
     content = new String(IOUtil.toByteArray( stream ));
 
-    idx = content.indexOf("${bestwine}");
+    idx = content.indexOf('${bestwine}');
 
     if (idx<1) {
       System.out.println("ext/wine.txt filtered:"+content);
