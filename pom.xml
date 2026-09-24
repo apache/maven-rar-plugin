@@ -172,12 +172,14 @@ under the License.
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
-            <excludes combine.children="append">
+            <inputExcludes combine.children="append">
               <!--
                 The manifest specification does not describe any method for writing comments into the manifest.
               -->
               <exclude>src/test/resources/unit/basic-rar-with-manifest/src/main/rar/META-INF/MANIFEST.MF</exclude>
-            </excludes>
+              <!-- Binary test fixtures of a local remote repository -->
+              <exclude>src/test/remote-repo/**/*.jar</exclude>
+            </inputExcludes>
           </configuration>
         </plugin>
       </plugins>
