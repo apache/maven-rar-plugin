@@ -26,26 +26,33 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.jupiter.api.Test;
+
+import static org.apache.maven.api.plugin.testing.MojoExtension.getBasedir;
+import static org.apache.maven.api.plugin.testing.MojoExtension.getVariableValueFromObject;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="mailto:aramirez@apache.org">Allan Ramirez</a>
  */
-public class RarMojoTest extends AbstractMojoTestCase {
-    public void testRarTestEnvironment() throws Exception {
-        File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-test/plugin-config.xml");
-
-        RarMojo mojo = (RarMojo) lookupMojo("rar", testPom);
-
+@MojoTest
+class RarMojoTest {
+    @Test
+    @InjectMojo(goal = "rar", pom = "target/test-classes/unit/basic-rar-test/plugin-config.xml")
+    void testRarTestEnvironment(RarMojo mojo) throws Exception {
         assertNotNull(mojo);
     }
 
-    public void testBasicRar() throws Exception {
-        File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-test/plugin-config.xml");
-
-        RarMojo mojo = (RarMojo) lookupMojo("rar", testPom);
-
+    @Test
+    @InjectMojo(goal = "rar", pom = "target/test-classes/unit/basic-rar-test/plugin-config.xml")
+    void testBasicRar(RarMojo mojo) throws Exception {
         assertNotNull(mojo);
 
         String finalName = (String) getVariableValueFromObject(mojo, "finalName");
@@ -81,7 +88,7 @@ public class RarMojoTest extends AbstractMojoTestCase {
         expectedFiles.add("maven-artifact02-1.0-SNAPSHOT.jar");
         expectedFiles.add("test-rar.jar");
 
-        assertEquals("Files in working directory", expectedFiles.size(), fileNames.length);
+        assertEquals(expectedFiles.size(), fileNames.length, "Files in working directory");
 
         for (File fileName1 : fileNames) {
             String fileName = fileName1.getName();
@@ -126,11 +133,9 @@ public class RarMojoTest extends AbstractMojoTestCase {
         }
     }
 
-    public void testBasicRarWithDescriptor() throws Exception {
-        File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-with-descriptor/plugin-config.xml");
-
-        RarMojo mojo = (RarMojo) lookupMojo("rar", testPom);
-
+    @Test
+    @InjectMojo(goal = "rar", pom = "target/test-classes/unit/basic-rar-with-descriptor/plugin-config.xml")
+    void testBasicRarWithDescriptor(RarMojo mojo) throws Exception {
         assertNotNull(mojo);
 
         String finalName = (String) getVariableValueFromObject(mojo, "finalName");
@@ -195,11 +200,9 @@ public class RarMojoTest extends AbstractMojoTestCase {
         }
     }
 
-    public void testBasicRarWithManifest() throws Exception {
-        File testPom = new File(getBasedir(), "target/test-classes/unit/basic-rar-with-manifest/plugin-config.xml");
-
-        RarMojo mojo = (RarMojo) lookupMojo("rar", testPom);
-
+    @Test
+    @InjectMojo(goal = "rar", pom = "target/test-classes/unit/basic-rar-with-manifest/plugin-config.xml")
+    void testBasicRarWithManifest(RarMojo mojo) throws Exception {
         assertNotNull(mojo);
 
         String finalName = (String) getVariableValueFromObject(mojo, "finalName");
