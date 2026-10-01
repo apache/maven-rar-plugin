@@ -46,11 +46,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.apache.maven.shared.filtering.ChangeDetection;
 import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
+import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.ManifestException;
+import org.codehaus.plexus.archiver.util.DefaultFileSet;
 
 /**
  * Builds J2EE Resource Adapter Archive (RAR) files.
@@ -382,7 +385,11 @@ public class RarMojo extends AbstractMojo {
             // Include custom manifest if necessary
             includeCustomManifestFile();
 
-            archiver.getArchiver().addDirectory(getBuildDir());
+            Archiver jarArchiver = archiver.getArchiver();
+            jarArchiver.addFileSet(DefaultFileSet.fileSet(getBuildDir())
+                    .prefixed("")
+                    .includeExclude(null, null)
+                    .includeEmptyDirs(jarArchiver.getIncludeEmptyDirs()));
             archiver.createArchive(session, project, archive);
         } catch (IOException | ManifestException | DependencyResolutionRequiredException e) {
             throw new MojoExecutionException("Error assembling RAR", e);
@@ -418,7 +425,7 @@ public class RarMojo extends AbstractMojo {
         mavenResourcesExecution.setInjectProjectBuildFilters(false);
 
         mavenResourcesExecution.setEscapeString(escapeString);
-        mavenResourcesExecution.setOverwrite(overwrite);
+        mavenResourcesExecution.setChangeDetection(overwrite ? ChangeDetection.ALWAYS : ChangeDetection.CONTENT);
         mavenResourcesExecution.setIncludeEmptyDirs(includeEmptyDirs);
         mavenResourcesExecution.setSupportMultiLineFiltering(supportMultiLineFiltering);
         mavenResourcesExecution.setDelimiters(delimiters, useDefaultDelimiters);
