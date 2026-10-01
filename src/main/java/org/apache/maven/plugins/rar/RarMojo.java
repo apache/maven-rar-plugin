@@ -22,6 +22,9 @@ import javax.inject.Inject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -48,7 +51,6 @@ import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.ManifestException;
-import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Builds J2EE Resource Adapter Archive (RAR) files.
@@ -327,7 +329,7 @@ public class RarMojo extends AbstractMojo {
                 File generatedJarFile = new File(outputDirectory, finalName + ".jar");
                 if (generatedJarFile.exists()) {
                     getLog().info("Including generated jar file[" + generatedJarFile.getName() + "]");
-                    FileUtils.copyFileToDirectory(generatedJarFile, getBuildDir());
+                    copyFileToDirectory(generatedJarFile, getBuildDir());
                 }
             }
         } catch (IOException e) {
@@ -345,7 +347,7 @@ public class RarMojo extends AbstractMojo {
                         && artifact.getArtifactHandler().isAddedToClasspath()) {
                     getLog().info("Copying artifact[" + artifact.getGroupId() + ", " + artifact.getId() + ", "
                             + artifact.getScope() + "]");
-                    FileUtils.copyFileToDirectory(artifact.getFile(), getBuildDir());
+                    copyFileToDirectory(artifact.getFile(), getBuildDir());
                 }
             }
         } catch (IOException e) {
@@ -434,6 +436,20 @@ public class RarMojo extends AbstractMojo {
     /**
      * @return the buildDir
      */
+    /**
+     * Copies {@code source} into {@code destinationDirectory}, creating the directory if needed and replacing an
+     * existing file of the same name.
+     */
+    private static void copyFileToDirectory(File source, File destinationDirectory) throws IOException {
+        Path directory = destinationDirectory.toPath();
+        Files.createDirectories(directory);
+        Files.copy(
+                source.toPath(),
+                directory.resolve(source.getName()),
+                StandardCopyOption.REPLACE_EXISTING,
+                StandardCopyOption.COPY_ATTRIBUTES);
+    }
+
     protected File getBuildDir() {
         if (buildDir == null) {
             buildDir = new File(workDirectory);
@@ -465,7 +481,7 @@ public class RarMojo extends AbstractMojo {
             getLog().info("Including custom manifest file[" + customManifestFile + "]");
             archive.setManifestFile(customManifestFile);
             File metaInfDir = new File(getBuildDir(), "META-INF");
-            FileUtils.copyFileToDirectory(customManifestFile, metaInfDir);
+            copyFileToDirectory(customManifestFile, metaInfDir);
         }
     }
 
@@ -477,7 +493,7 @@ public class RarMojo extends AbstractMojo {
         if (raXml.exists()) {
             getLog().info("Using ra.xml " + raXmlFile);
             File metaInfDir = new File(getBuildDir(), "META-INF");
-            FileUtils.copyFileToDirectory(raXml, metaInfDir);
+            copyFileToDirectory(raXml, metaInfDir);
         }
     }
 }
