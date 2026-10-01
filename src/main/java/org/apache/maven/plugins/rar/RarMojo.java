@@ -67,13 +67,13 @@ public class RarMojo extends AbstractMojo {
     /**
      * Single directory for extra files to include in the RAR.
      */
-    @Parameter(defaultValue = "${basedir}/src/main/rar", required = true)
+    @Parameter(defaultValue = "${project.basedir}/src/main/rar", required = true)
     private File rarSourceDirectory;
 
     /**
      * The location of the ra.xml file to be used within the rar file.
      */
-    @Parameter(defaultValue = "${basedir}/src/main/rar/META-INF/ra.xml")
+    @Parameter(defaultValue = "${project.basedir}/src/main/rar/META-INF/ra.xml")
     private File raXmlFile;
 
     /**
@@ -86,7 +86,7 @@ public class RarMojo extends AbstractMojo {
     /**
      * The location of the manifest file to be used within the rar file.
      */
-    @Parameter(defaultValue = "${basedir}/src/main/rar/META-INF/MANIFEST.MF")
+    @Parameter(defaultValue = "${project.basedir}/src/main/rar/META-INF/MANIFEST.MF")
     private File manifestFile;
 
     /**
