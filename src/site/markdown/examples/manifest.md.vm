@@ -26,7 +26,7 @@ under the License.
 
 # Adding Manifest File
 
-By default, The RAR plugin retrieves the manifest file to use in this location `${basedir}/src/main/rar/META-INF/MANIFEST.MF`. To be able to change the location, configure the **manifestFile** property and set the value to the new location.
+By default, The RAR plugin retrieves the manifest file to use in this location `${project.basedir}/src/main/rar/META-INF/MANIFEST.MF`. To be able to change the location, configure the **manifestFile** property and set the value to the new location.
 
 ```xml
 <project>
