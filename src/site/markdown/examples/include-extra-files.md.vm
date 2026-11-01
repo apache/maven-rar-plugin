@@ -28,7 +28,7 @@ under the License.
 
 Extra files may also be included in the generated archive(rar). By default, all files placed inside the `src/main/rar` will be included.
 
-```unknown
+```text
 project
 |--pom.xml
 |--src

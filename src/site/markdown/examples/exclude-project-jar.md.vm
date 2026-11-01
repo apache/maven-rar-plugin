@@ -29,7 +29,7 @@ under the License.
 
 By default, the generated JAR file is included in the RAR file. This behavior is controlled by the **includeJar** property. For instance, to exclude the generated JAR file from the RAR, set the **includeJar** property to **false**.
 
-```unknown
+```xml
 [...]
   <build>
     <plugins>
