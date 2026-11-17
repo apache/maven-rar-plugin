@@ -26,6 +26,7 @@ public class ArtifactHandlerStub extends DefaultArtifactHandler {
         super("jar");
     }
 
+    @Override
     public boolean isAddedToClasspath() {
         return true;
     }

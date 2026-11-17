@@ -319,6 +319,7 @@ public class RarMojo extends AbstractMojo {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void execute() throws MojoExecutionException {
 
         if (skip) {

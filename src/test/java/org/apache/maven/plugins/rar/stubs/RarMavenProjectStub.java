@@ -73,26 +73,32 @@ public class RarMavenProjectStub extends MavenProject {
         setBuild(build);
     }
 
+    @Override
     public String getGroupId() {
         return "org.apache.maven.test";
     }
 
+    @Override
     public String getArtifactId() {
         return "maven-rar-test";
     }
 
+    @Override
     public String getVersion() {
         return "1.0-SNAPSHOT";
     }
 
+    @Override
     public File getFile() {
         return new File(getBasedir(), "src/test/resources/unit/basic-rar-test/plugin-config.xml");
     }
 
+    @Override
     public File getBasedir() {
         return new File(PlexusExtension.getBasedir());
     }
 
+    @Override
     public Artifact getArtifact() {
         Artifact artifact = new RarArtifactStub();
 
@@ -105,6 +111,7 @@ public class RarMavenProjectStub extends MavenProject {
         return artifact;
     }
 
+    @Override
     public Set<Artifact> getArtifacts() {
         Set<Artifact> artifacts = new HashSet<>();
 
@@ -114,6 +121,7 @@ public class RarMavenProjectStub extends MavenProject {
         return artifacts;
     }
 
+    @Override
     public List<Artifact> getAttachedArtifacts() {
         if (attachedArtifacts == null) {
             attachedArtifacts = new ArrayList<>();

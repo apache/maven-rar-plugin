@@ -59,99 +59,123 @@ public class RarArtifactStub extends ArtifactStub {
 
     private File file;
 
+    @Override
     public String getArtifactId() {
         return artifactId;
     }
 
+    @Override
     public void setArtifactId(String artifactId) {
         this.artifactId = artifactId;
     }
 
+    @Override
     public File getFile() {
         return file;
     }
 
+    @Override
     public void setFile(File file) {
         this.file = file;
     }
 
+    @Override
     public String getGroupId() {
         return groupId;
     }
 
+    @Override
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
+    @Override
     public boolean isOptional() {
         return optional;
     }
 
+    @Override
     public void setOptional(boolean optional) {
         this.optional = optional;
     }
 
+    @Override
     public String getScope() {
         return scope;
     }
 
+    @Override
     public void setScope(String scope) {
         this.scope = scope;
     }
 
+    @Override
     public String getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(String version) {
         this.version = version;
     }
 
+    @Override
     public String getId() {
         return getGroupId() + ":" + getArtifactId() + ":" + getVersion();
     }
 
+    @Override
     public String getBaseVersion() {
         return getVersion();
     }
 
+    @Override
     public VersionRange getVersionRange() {
         return VersionRange.createFromVersion(this.version);
     }
 
+    @Override
     public ArtifactHandler getArtifactHandler() {
         return new ArtifactHandler() {
 
+            @Override
             public boolean isIncludesDependencies() {
                 return false;
             }
 
+            @Override
             public boolean isAddedToClasspath() {
                 return true;
             }
 
+            @Override
             public String getPackaging() {
                 return null;
             }
 
+            @Override
             public String getLanguage() {
                 return null;
             }
 
+            @Override
             public String getExtension() {
                 return null;
             }
 
+            @Override
             public String getDirectory() {
                 return null;
             }
 
+            @Override
             public String getClassifier() {
                 return null;
             }
         };
     }
 
+    @Override
     public String getType() {
         return "rar";
     }
