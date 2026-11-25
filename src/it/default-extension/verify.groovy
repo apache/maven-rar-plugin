@@ -19,18 +19,14 @@
 
 import java.util.jar.JarFile
 
-File jarFile = new File( basedir, "target/maven-it-it0070-1.0-SNAPSHOT.rar" )
+File jarFile = new File(basedir, "target/maven-it-it0070-1.0-SNAPSHOT.rar")
 println "Checking for existence of " + jarFile
 assert jarFile.isFile() : "rar file not found"
 
 JarFile jar = new JarFile( jarFile )
 
-String[] includedEntries = [
-    "META-INF/ra.xml",
-    "SomeResource.txt",
-]
-for ( String included : includedEntries )
-{
+String[] includedEntries = ["META-INF/ra.xml", "SomeResource.txt",]
+for ( String included : includedEntries ) {
     println "Checking for existence of " + included
     assert jar.getEntry( included ) != null : "entry not in rar file" + included
 }
