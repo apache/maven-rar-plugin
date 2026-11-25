@@ -17,55 +17,27 @@
  * under the License.
  */
 
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
-import java.util.regex.*;
-import org.codehaus.plexus.util.*;
+import java.util.jar.JarFile
 
-try
+File jarFile = new File( basedir, "target/maven-it-it0070-1.0-SNAPSHOT.rar" )
+println "Checking for existence of " + jarFile
+assert jarFile.isFile() : "rar file not found"
+
+JarFile jar = new JarFile( jarFile )
+
+String[] includedEntries = [
+    "META-INF/ra.xml",
+    "SomeResource.txt",
+]
+for ( String included : includedEntries )
 {
-    File jarFile = new File( basedir, "target/maven-it-it0070-1.0-SNAPSHOT.rar" );
-    System.out.println( "Checking for existence of " + jarFile );
-    if ( !jarFile.isFile() )
-    {
-        System.out.println( "FAILURE! rar file not found" );
-        return false;
-    }
-
-    JarFile jar = new JarFile( jarFile );
-
-    String[] includedEntries = [
-        "META-INF/ra.xml",
-        "SomeResource.txt",
-    ];
-    for ( String included : includedEntries )
-    {
-        System.out.println( "Checking for existence of " + included );
-        if ( jar.getEntry( included ) == null )
-        {
-            System.out.println( "FAILURE! entry not in rar file" + included );
-            return false;
-        }
-    }
-
-    InputStream stream = jar.getInputStream( jar.getEntry("SomeResource.txt") );
-
-    String content = new String(IOUtil.toByteArray( stream ));
-
-    int idx = content.indexOf('${project.version}');
-
-    if (idx<1) {
-      System.out.println("SomeResource.txt not filtered");
-      return false;
-    }
-
-    jar.close();
-}
-catch( Throwable t )
-{
-    t.printStackTrace();
-    return false;
+    println "Checking for existence of " + included
+    assert jar.getEntry( included ) != null : "entry not in rar file" + included
 }
 
-return true;
+String content = new String( jar.getInputStream( jar.getEntry( "SomeResource.txt" ) ).bytes )
+
+int idx = content.indexOf( '${project.version}' )
+assert idx >= 1 : "SomeResource.txt not filtered"
+
+jar.close()

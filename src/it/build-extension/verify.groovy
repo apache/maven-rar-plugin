@@ -22,7 +22,5 @@ def log = new File(basedir, "build.log").text
 
 // The lifecycle mapping must bind the rar goal to the loaded extension's version,
 // not to whatever version repository metadata resolves for a version-less binding.
-if (!log.contains(":" + version + ":rar (default-rar)")) {
-    throw new AssertionError("rar goal did not run at extension version " + version)
-}
+assert log.contains(":" + version + ":rar (default-rar)") : "rar goal did not run at extension version " + version
 assert new File(basedir, "target/build-extension-1.0-SNAPSHOT.rar").isFile()
