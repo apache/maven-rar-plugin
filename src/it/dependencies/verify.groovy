@@ -19,25 +19,21 @@
 
 import java.util.jar.JarFile
 
-File rarFile = new File( basedir, "target/rar-dependencies-1.0-SNAPSHOT.rar" )
+File rarFile = new File(basedir, "target/rar-dependencies-1.0-SNAPSHOT.rar")
 assert rarFile.isFile() : "rar file not found: " + rarFile
 
 JarFile rar = new JarFile( rarFile )
-try
-{
+try {
     Set<String> jars = new TreeSet<String>()
-    for ( entry in rar.entries() )
-    {
-        if ( entry.name.endsWith( ".jar" ) )
-        {
+    for ( entry in rar.entries() ) {
+        if ( entry.name.endsWith( ".jar" ) ) {
             jars.add( entry.name )
         }
     }
 
     // compile is copied; optional (excluded by RarMojo), provided and test (outside runtime scope) are not
-    assert jars == ( [ "javax.inject-1.jar" ] as Set ) : "unexpected jars in rar: " + jars
+    assert jars == ( ["javax.inject-1.jar"] as Set ) : "unexpected jars in rar: " + jars
 }
-finally
-{
+finally {
     rar.close()
 }
