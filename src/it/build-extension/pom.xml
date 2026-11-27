@@ -27,7 +27,7 @@ under the License.
   <version>1.0-SNAPSHOT</version>
   <packaging>rar</packaging>
 
-  <description>Load the plugin as a build extension and check that the package phase runs the same plugin version.</description>
+  <description>Load the plugin as a build extension, declare it explicitly and check that the package phase runs the same plugin version.</description>
 
   <build>
     <pluginManagement>
